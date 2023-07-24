@@ -13,8 +13,10 @@
 #include <string.h>  // gestisce le stringhe, con funzioni di confronto/copia/etc
 #include <assert.h>  // permette di usare la funzione assert
 
+
+
 int main(int argc, char *argv[]){
-    //definosco la variabile n
+    //definisco la variabile n
     int n;
 
     //leggo da tastiera il valore di n
@@ -35,7 +37,7 @@ int main(int argc, char *argv[]){
         printf("inserisci l'elemento di posto %d: ", i);
         e = scanf("%d", &a[i]);
         if(e!=1){
-            puts("Valore non trovato\n")
+            puts("Valore non trovato\n");
             exit(1);
         }
     }
