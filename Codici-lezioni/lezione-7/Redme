@@ -1,0 +1,11 @@
+MERGESORT :
+    Algoritmo Mergesort che sfrutta la notazione &a[n1] 
+    per ottenere il puntatore all'inizio dell'array 
+    contenente al seconda metà dell'input.
+
+LUNGHEZZA STRINGA:
+    Esempio calcolo lunghezza stringa 
+    utilizzando l'aritmetica dei puntatori
+
+ARITP :
+    esperimenti con l'aritmetica dei puntatori
