@@ -28,7 +28,7 @@ typedef struct {
 // Avendo definito il tipo capitale, ecco due 
 // possibili definizione di array di 100 capitali:
 // statico (dimensione immutabile)
-capitale a[100];  // ogni a[i] = un capitae  = 24 byte
+capitale a[100];  // ogni a[i] = una capitale = 24 byte
 // dinamico
 capitale *a = malloc(100*sizeof(*a));
 // dopo aver creato a[] in questo modo, posso modificare gli elementi: 
@@ -38,7 +38,7 @@ a[0].lat = 34;
 // lavoreremo invece con un array di puntatori a capitale:
 // versione statica
 capitale *b[100]; // ogni b[i] = un puntatore = 8 byte
-// versopme dinamica
+// versione dinamica
 capitale **b = malloc(100*sizeof(*b));
 // ogni b[i] però è solo un puntatore, non esiste lo spazio
 // per i tre campi nome, lat, lon è necessario allocarlo:
@@ -92,6 +92,8 @@ capitale *capitale_leggi(FILE *f)
   free(s);
   return c;
 }
+
+
 
 //legge e restituisce un array di capitali *
 capitale **capitale_leggi_file(FILE *f, int *num)

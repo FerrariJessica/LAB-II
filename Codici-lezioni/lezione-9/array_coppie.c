@@ -13,16 +13,16 @@ void termina(const char *messaggio);
 // Mostrare come si definiscono e usano le struct
 
 // compilare ed eseguire con
-//  make maincoppia
-//  maincoppia 1 2 5 0 3 4 
+//  make array_coppie
+//  array_coppie 1 2 5 0 3 4 
 
 
 
 // definisco la struct duetto
 // dico che coppia è sinonimo di struct duetto
 typedef struct duetto {
-  int primo;
-  int secondo;
+    int primo;
+    int secondo;
 } coppia;
 
 // volendo posso scrivere ad esempio
@@ -34,40 +34,44 @@ typedef int *puntatore_a_int;
 // scambia le componenti: attenzione il passaggio avviene per valore 
 struct duetto scambia(struct duetto d)
 { 
-  intero tmp = d.primo;
-  d.primo = d.secondo;
-  d.secondo = tmp;
-  return d;
+    intero tmp = d.primo;
+    d.primo = d.secondo;
+    d.secondo = tmp;
+    return d;
 }
 
 
 void coppia_stampa(coppia a, FILE *f) {
-  fprintf(f,"(%d,%d)\n",a.primo,a.secondo);
+    fprintf(f,"(%d,%d)\n",a.primo,a.secondo);
 }
 
 
 int main(int argc, char *argv[])
 {
-  coppia *a;
+    coppia *a;
 
-  if(argc <3 || argc%2==0) {
-    printf("Uso: %s un numero positivo pari di interi\n",argv[0]);
-    exit(1);
-  } 
-  int n = (argc-1)/2;  // dimensione di a  == numero coppie
-  a = malloc(n*sizeof(coppia));
-  if(a==NULL) termina("allocazione fallita");
+    if(argc <3 || argc%2==0) {
+        printf("Uso: %s un numero positivo pari di interi\n",argv[0]);
+        exit(1);
+    } 
+    int n = (argc-1)/2;  // dimensione di a  == numero coppie
+    a = malloc(n*sizeof(coppia));
+    if(a==NULL) termina("allocazione fallita");
 
-  for(int i=0;i<n;i++) {
-    a[i].primo = atoi(argv[2*i+1]);
-    a[i].secondo = atoi(argv[2*i+2]);  
-  }
+    for(int i=0;i<n;i++) {
+        a[i].primo = atoi(argv[2*i+1]);
+        a[i].secondo = atoi(argv[2*i+2]);  
+    }
 
-  for(int i=0;i<n;i++)
-    coppia_stampa(a[i], stdout);
+    for(int i=0;i<n;i++) coppia_stampa(a[i], stdout);
 
-  free(a);
-  return 0;
+    *a = scambia(*a);
+
+    printf("\nnuova stampa dopo aver scambiato:\n");
+    for(int i=0;i<n;i++) coppia_stampa(a[i], stdout);
+
+    free(a);
+    return 0;
 }
 
 
@@ -76,10 +80,10 @@ int main(int argc, char *argv[])
 // a errno. dopo queste stampe termina il programma
 void termina(const char *messaggio)
 {
-  if(errno==0) 
-     fprintf(stderr,"%s\n",messaggio);
-  else 
-    perror(messaggio);
-  exit(1);
+    if(errno==0) 
+        fprintf(stderr,"%s\n",messaggio);
+    else 
+        perror(messaggio);
+    exit(1);
 }
 

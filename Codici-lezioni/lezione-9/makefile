@@ -7,6 +7,4 @@ CFLAGS=-std=c11 -Wall -g
 LDLIBS=-lm
 
 # elenco degli eseguibili da creare
-all: array_coppie array_capitali
-
-
+all: array_coppie array_capitali capitali2
