@@ -1,0 +1,5 @@
+Nome: luigi - Mascherine: 8
+Nome: carlo - Mascherine: 24
+Nome: daniel - Mascherine: 3
+Nome: alessia - Mascherine: 79
+Nome: franca - Mascherine: 3

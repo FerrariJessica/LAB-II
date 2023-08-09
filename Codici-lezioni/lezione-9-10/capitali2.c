@@ -8,6 +8,9 @@
 
 // Scopo del programma:
 // Mostrare come si definiscono e usano i puntatori a struct
+// in particolare gli array di puntatori a struct
+
+
 
 // prototipi delle funzioni che appaiono dopo il main()
 void termina(const char *messaggio);
@@ -28,7 +31,7 @@ typedef struct {
 // Avendo definito il tipo capitale, ecco due 
 // possibili definizione di array di 100 capitali:
 // statico (dimensione immutabile)
-capitale a[100];  // ogni a[i] = una capitale = 24 byte
+capitale a[100];  // ogni a[i] = un capitae  = 24 byte
 // dinamico
 capitale *a = malloc(100*sizeof(*a));
 // dopo aver creato a[] in questo modo, posso modificare gli elementi: 
@@ -38,7 +41,7 @@ a[0].lat = 34;
 // lavoreremo invece con un array di puntatori a capitale:
 // versione statica
 capitale *b[100]; // ogni b[i] = un puntatore = 8 byte
-// versione dinamica
+// versopme dinamica
 capitale **b = malloc(100*sizeof(*b));
 // ogni b[i] però è solo un puntatore, non esiste lo spazio
 // per i tre campi nome, lat, lon è necessario allocarlo:
@@ -93,7 +96,29 @@ capitale *capitale_leggi(FILE *f)
   return c;
 }
 
-
+// confronto latitudini ordinando da nord a sud
+int capitale_cmp_lat(capitale *a, capitale *b)
+{
+  if(a->lat > b->lat) return -1;
+  else if(a->lat < b->lat) return 1;
+  return 0;
+}
+// confronto latitudini ordinando da sud a nord 
+int capitale_cmp_latsud(capitale *a, capitale *b)
+{
+  if(a->lat > b->lat) return 1;
+  else if(a->lat < b->lat) return -1;
+  return 0;
+}
+// confronto dei nomi
+int capitale_cmp_nome(capitale *a, capitale *b)
+{
+  if(strcmp(a->nome,b->nome)<0) return -1;
+  else if(strcmp(a->nome,b->nome)>0) return 1;
+  return 0;// confronto latitudini da nord a sud
+  // posso scrivere semplicemente 
+  //   return strcmp(a->nome,b->nome);
+}
 
 //legge e restituisce un array di capitali *
 capitale **capitale_leggi_file(FILE *f, int *num)
@@ -131,24 +156,104 @@ capitale **capitale_leggi_file(FILE *f, int *num)
   return a;  
 }
 
+// esegue il merge di due array di stringhe
+void merge(capitale *a[], int na, capitale *c[], int nc, 
+           capitale *b[], 
+           int (*cmp)(capitale *,capitale *)) 
+{
+  assert(a!=NULL && c!=NULL && b !=NULL);
+  int n = na+nc;  // lunghezza array risultato
+  int ia,ib,ic;   // indici all'interno degli array
+  ia=ic=ib=0;
+  
+  // eseguo merge riempiendo il vettore b
+  for(ib=0;ib<n;ib++) {
+    if(ia==na)
+      b[ib] = c[ic++];
+    else if(ic==nc)
+      b[ib] = a[ia++];    
+//    else if(  a[ia]->lat >  c[ic]->lat   )     // ordina per latitudine decrescente
+//    else if(  strcmp(a[ia]->nome,c[ic]->nome)<0 ) // ordina per nome
+    else if(cmp(a[ia],c[ic])<0)              // ordina secondo la funzione cmp()
+      b[ib] = a[ia++];
+    else 
+      b[ib] = c[ic++];
+  }
+  // verifica tutti gli indici sono arrivati in fondo
+  assert(ia==na);
+  assert(ic==nc);
+  assert(ib==n);
+}
+
+
+// ordina un array di puntatori a capitale con il mergesort
+// cmp() è la funzione di confronto che definisce l'ordinamento
+void mergesort(capitale *a[], int n, int (*cmp)(capitale *,capitale *))
+{
+  assert(a!=NULL);
+  assert(n>0);
+  
+  // caso base
+  if(n==1) return;
+  
+  int n1 = n/2;     // dimensione prima parte
+  int n2 = n - n1;  // dimensione seconda parte
+  
+  mergesort(a,n1,cmp);
+  mergesort(&a[n1],n2,cmp); // &a[n1] potevo scriverlo a+n1
+  
+  // ho le due metà ordinate devo fare il merge
+  capitale **b = malloc(n*sizeof(*b));
+  if(b==NULL) termina("malloc fallita nel merge");
+  merge(a,n1,&a[n1],n2,b,cmp);  
+  // copio il risultato da b[] ad a[]
+  for(int i=0;i<n;i++)
+    a[i] = b[i];
+  
+  free(b);
+}
+
+
+
+
 int main(int argc, char *argv[])
 {
 
   if(argc!=2) {
     printf("Uso: %s nomefile\n",argv[0]);
     exit(1);
-  } 
+  }
+  // legge i dati sulle capitali dal file 
   FILE *f = fopen(argv[1],"r");
   int n;
   capitale **a = capitale_leggi_file(f, &n);
   fclose(f);
+  
+  // ordino elenco capitali da sud a nord
+  mergesort(a,n,&capitale_cmp_latsud);
 
+  // stampa elenco capitali
   for(int i=0;i<n;i++)
     capitale_stampa(a[i], stdout);
 
+  puts("-------------");
+
+  // ordino elenco capitali da sud a nord
+  mergesort(a,n,&capitale_cmp_nome);
+
+  // stampa elenco capitali
+  for(int i=0;i<n;i++)
+    capitale_stampa(a[i], stdout);
+
+
+
+
+
+  // dealloca le singole capitali e l'array
   for(int i=0;i<n;i++)
     capitale_distruggi(a[i]);
   free(a);
+  
   return 0;
 }
 
