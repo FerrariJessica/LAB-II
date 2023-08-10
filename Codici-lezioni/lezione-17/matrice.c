@@ -2,6 +2,7 @@
  * dimostrazione di uso degli array bidimensionali
  * sia statici che dinamici 
  * ********************************************************* */
+
 #include <stdio.h>    // permette di usare scanf printf etc ...
 #include <stdlib.h>   // conversioni stringa/numero rand() abs() exit()
 #include <stdbool.h>  // gestisce tipo bool (per variabili booleane)

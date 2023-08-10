@@ -11,7 +11,7 @@ LDLIBS=-lm
 #  $^ viene sostituito con tutti i prerequisiti
 
 # elenco degli eseguibili da creare
-EXECS=matrice scrivi_primi_bin
+EXECS=matrice scrivi_primi_bin matrice2
 
 
 # primo target: gli eseguibili sono precondizioni
