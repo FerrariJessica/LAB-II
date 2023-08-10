@@ -14,7 +14,6 @@ typedef struct stringola{
 }stringola;
 
 stringola *crea(char *s){
-    assert (s != NULL);
     stringola *string = malloc(sizeof(*string));
     string -> str = strdup(s);
     string -> next = NULL;
@@ -27,7 +26,7 @@ void distruggi(stringola *s){
 }
 
 void stampa(FILE *f, stringola *s){
-    fprintf(f, "%20s\n", s->str);
+    fprintf(f, "%-20s\n", s->str);
 }
 
 void stampa_lst(FILE *f,stringola *s){

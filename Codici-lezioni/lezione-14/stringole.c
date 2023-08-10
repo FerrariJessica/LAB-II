@@ -98,7 +98,7 @@ char *elimina_spazi_testa(char s[])
 
 
 
-// main che legge le linee e le spezza al ;
+//main che legge le linee e le spezza al ;
 int main(int argc, char *argv[])
 {
 
