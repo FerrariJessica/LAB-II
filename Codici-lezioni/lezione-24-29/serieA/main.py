@@ -50,6 +50,7 @@ def aggiungi_partite_da_file(nomefile):
 	"""Crea una classifica con i punti ricavati dai risultati
  risportati dentro il file nomefile"""
 	cla = {}   # crea classifica vuota
+
 	with open(nomefile,"r") as f:
 		for linea in f:
 			# verifico il formato
@@ -57,7 +58,7 @@ def aggiungi_partite_da_file(nomefile):
 			if len(a)==0:
 				continue 
 			if len(a)!=4:  
-			  raise RuntimeError(f"Linea non valida: {linea}")
+				raise RuntimeError(f"Linea non valida: {linea}")
 			# estraggo il numero di gol come interi
 			g1 = int(a[0])
 			g2 = int(a[1])

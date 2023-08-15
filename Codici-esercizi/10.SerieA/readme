@@ -1,0 +1,126 @@
+/*-------------TESTO-----------------
+
+1. Definire la struct
+
+typedef struct sq {
+  char *nome;
+  int punti;
+  struct sq *next;
+} squadra;
+
+che rappresenta una squadra e il suo punteggio. 
+
+Si vuole mantenere una lista delle squadre che partecipano al campionato ordinate lessicograficamente. 
+
+
+Si definisca la funzione:
+    squadra *aggiungi_punti(squadra *lis, char *n, int p)
+che aggiunge alla squadra di nome n esattamente p punti. 
+Se la lista lis contiene già la squadra di nome n si deve semplicemente aumentare di p il suo punteggio; 
+se invece lis non contiene tale squadra essa deve essere creata e gli deve essere assegnato il punteggio p. 
+Si ricordi che dentro lis le squadre devono sempre essere ordinate lessicograficamente. 
+Quando viene creato un oggetto di tipo squadra la stringa contente il nome deve essere duplicata con la funzione strdup.
+
+
+Per testare questa prima parte dell'esercizio, scrivere un main con le seguenti istruzioni:
+
+            squadra *classifica = NULL;
+            classifica = aggiungi_punti(classifica,"Juve",1);   
+            classifica = aggiungi_punti(classifica,"Chievo",3);   
+            classifica = aggiungi_punti(classifica,"Milan",1);   
+            classifica = aggiungi_punti(classifica,"Juve",3);   
+            classifica = aggiungi_punti(classifica,"Spal",1);   
+            classifica = aggiungi_punti(classifica,"Milan",1);
+            classifica = aggiungi_punti(classifica,"Roma",3);
+            scrivi_lista(classifica,stdout); // da scrivere in analogia a quanto fatto per le citta'
+            distruggi_lista(classifica);     // da scrivere in analogia a quanto fatto per le citta'
+
+che dovrebbero produrre un output del tipo
+
+            Chievo: 3
+            Juve: 4
+            Milan: 2
+            Roma: 3
+            Spal: 1
+
+
+
+2. Aggiungere al programma precedente una funzione
+
+    squadra *aggiungi_partita(squadra *classifica, char *s1, int g1, char *s2, int g2)
+
+che considera i parametri passati come il risultato di una partita nella quale la squadra s1 ha fatto g1 gol, e la squadra s2 ha fatto g2 gol. 
+La funzione deve aggiornare la classifica (usando aggiungi_punti) assegnando 1 o 3 punti a s1 e/o s2 
+e deve restituire la nuova classifica mediante l'istruzione return.
+
+
+Scrivere poi una funzione main che legge il nome di un file di testo da linea di comando, 
+apre il file in lettura e legge ripetutamente il risultato di una partita con l'istruzione
+
+            fscanf(f, "%d %d %19s %19s",&g1, &g2, s1, s2)
+
+(stiamo assumendo che i nomi delle squadre non contengano spazi e siano lunghi al max 20 caratteri) 
+dove gt1 e gt2 leggono i gol segnati rispettivamente dalle squadre s1 e s2. 
+Dopo aver letto il risultato di una partita la funzione main provvede ad aggiornare la classifica usando aggiungi_partita. 
+Quando non è più possibile leggere partite dal file, il programma deve visualizzare la classifica come indicato al punto 1) 
+
+Testare questo esercizio passando sulla linea di comando il file risultati; l'output corrispondente dovrebbe iniziare con:
+
+            Atalanta: 13
+            Bologna: 10
+            Cagliari: 10
+            Catania: 6
+            Chievo: 5
+            Fiorentina: 21
+            Genoa: 14
+            ...
+
+3. Aggiungere al programma del punto 2 le istruzioni per visualizzare la classifica ordinata per punteggio decrescente. 
+Squadre che hanno lo stesso punteggio devono apparire in ordine alfabetico. L'output risultante dovrebbe iniziare con:
+
+            Roma: 31
+            Juventus: 28
+            Napoli: 28
+            Inter: 22
+            Verona: 22
+            Fiorentina: 21
+            Lazio: 15
+            ...
+
+Si noti che per ordinare la classifica in questo modo è necessario inserire le squadre una alla volta in una nuova lista 
+utilizzando una funzione che mantiene l'ordinamento basato sul punteggio e a parità di punteggio seguendo l'ordine alfabetico.
+
+
+4. Scrivere una funzione che visualizza la classifica finale nel seguente formato:
+
+            31  Roma
+            30 
+            29 
+            28  Juventus Napoli
+            27 
+            26 
+            25 
+            24 
+            23 
+            22  Inter Verona
+            21  Fiorentina
+            20 
+            19 
+            18 
+            17 
+            16 
+            15  Lazio
+            14  Genoa
+            13  Atalanta Udinese
+            12  Livorno Milan Parma Torino
+            11 
+            10  Bologna Cagliari
+            9  Sampdoria Sassuolo
+            8 
+            7 
+            6  Catania
+            5  Chievo
+
+si noti che le squadre con lo stesso punteggio sono sulla stessa riga e sono disposti in ordine alfabetico. 
+
+I punteggi sono quelli relativi al file risultati quindi potete usarli anche per verificare la correttezza delle vostre soluzione per i punti 2 e 3.*/
