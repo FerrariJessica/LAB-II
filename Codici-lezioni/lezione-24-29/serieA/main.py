@@ -21,7 +21,7 @@ chiave  squadra, valore punteggio
 convenzione se una squadra non e nel dizionario ha punteggio 0
 """
 
-import sys
+import sys 
 
 
 def aggiungi_partita(c,s1,s2,g1,g2):
@@ -73,8 +73,14 @@ def main(nomefile):
 	la classifica leggibile ottenuta dai risultati"""
 		c = aggiungi_partite_da_file(nomefile)
 		squadre = list(c.keys())
+		print(f"primo :{squadre}\n")
 		squadre.sort()
-		squadre.sort(key=lambda x: c[x], reverse=True)
+		print(f"secondo :{squadre}\n")
+		# def ordine(x):
+		# 	return c[x]
+		# squadre.sort(key=ordine, reverse=True)
+		squadre.sort(key=lambda squadra: c[squadra], reverse=True)
+		print(f"terzo :{squadre}\n")
 		ris = "--- classifica ---"
 		punteggio_precedente = -1
 		for s in squadre:

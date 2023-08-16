@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 # Pagine per approfondire:
 # https://pytutorial-it.readthedocs.io/it/python3.11/classes.html
 # https://docs.python.org/3/tutorial/classes.html
@@ -95,11 +97,11 @@ class Articolo:
 
 
 latte = Articolo("Latte 1LT", 1.20)
-print(latte.prezzo)             # accedere a un attributo di istanza
+print(f"Prezzo del latte :{latte.prezzo}")             # accedere a un attributo di istanza
 latte.valuta("Mario", 5)        # chiamare un metodo di istanza
 latte.valuta("Roberta", 2)
 Articolo.prezzo_99_cent(6.55)   # chiamare un metodo statico
-print(Articolo.articoli_totali) # accedere a un attributo di classe
+print(f"articoli totali : {Articolo.articoli_totali}") # accedere a un attributo di classe
 
 # ---------------------
 # ESEMPIO DI ALIASING 1
