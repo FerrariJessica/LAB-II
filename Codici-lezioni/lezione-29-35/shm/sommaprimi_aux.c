@@ -5,10 +5,10 @@
 // Usa shared memory e semafori per comunicare i risultati al
 // genitore
 
-#define Sommamem "/sommaprimi"
-#define Sommasem "/sommaprimi"
-#define Sommasem2 "/sommaprimi2"
-#define Sommasem3 "/sommaprimi3"
+#define Sommamem "/sommaprimi" //nome della shared memory
+#define Sommasem "/sommaprimi" //nome del semaforo 1
+#define Sommasem2 "/sommaprimi2" //nome del semaforo 2
+#define Sommasem3 "/sommaprimi3" //nnome del semaforo 3
 
 // restituisce true/false a seconda che n sia primo o composto
 bool primo(int n)

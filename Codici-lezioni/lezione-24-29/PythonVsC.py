@@ -71,3 +71,38 @@ def main(n):
   
 # ... ma in questo caso la invochiamo dopo averne letto la definizione 
 main(20)  
+
+
+# esempio di funzione ricorsiva
+def fib(n):
+    """
+    Calculate the nth Fibonacci number recursively.
+
+    Parameters:
+        n (int): The index of the Fibonacci number to calculate.
+
+    Returns:
+        int: The nth Fibonacci number.
+
+    """
+    if n == 0:
+        # Base case: 0th Fibonacci number is 0
+        return 0
+    elif n == 1:
+        # Base case: 1st Fibonacci number is 1
+        return 1
+    else:
+        # Recursive case: calculate the nth Fibonacci number
+        return fib(n - 1) + fib(n - 2)
+  
+  
+
+lis = [1,2,3]
+
+def sum_list(lis):
+  if len(lis) == 0:
+    return 0
+  else:
+    return lis[0] + sum_list(lis[1:])
+
+print(sum_list(lis))

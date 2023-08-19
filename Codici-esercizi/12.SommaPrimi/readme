@@ -1,0 +1,20 @@
+Calcolo della somma dei primi in un file con processi Python e C
+
+
+Scrivere un programma sommaprimi.py che invocato dalla linea di comando scrivendo
+
+sommaprimi.py nomefile
+
+calcola la somma dei numeri primi contenuti in nomefile utilizzando il seguente procedimento.
+
+Il programma deve leggere gli interi da nomefile e scriverli nella pipe somma_down sotto forma di interi a 32 bit. Al termine della scrittura deve chiudere somma_down e aprire somma_up in lettura e leggere da lì interi a 64 bit che rappresentano le somme parziali comunicate dai processi sommaprimi.c. Terminata la lettura sommaprimi.py deve calcolare la somma totale e visualizzarla su stdout.
+
+I programma sommaprimi.c deve creare un numero di processi figli indicato dalla linea di comando (in argv[1]). Ognuno dei processi figli deve aprire somma_down in lettura e leggere da lì interi a 32 bit. Ogni intero deve essere testato per la primalita e quelli primi devono essere sommati tra loro. Al termine della lettura da somma_down i processi figli devono devono scrivere dentro somma_up un intero a 64 bit contenente la somma da loro calcolata, e successivamente terminare.
+
+Il calcolo deve risultare corretto indipendentemente dal numero di processi figli generati da sommaprimi.c
+
+Nei primi esperimenti creare le pipe somma_up e somma_down dal terminale con il comando mkfifo(1). Successivamente fate in modo che sia sommaprimi.py a creare le pipe (con il comando os.mkfifo()) e a cancellarle subito prima di terminare con os.unlink().
+
+Per testare il vostro programma usate lo script file_primi.py che genera un file con un numero assegnato di interi positivi e calcola la somma dei primi in esso contenuti (la somma entra a far parte del nome del file). Fate esperimenti significativi con almeno un milione di interi e un numero variabile di processi.
+
+Attenzione: il vostro programma non funziona se il processo sommaprimi.py chiude la pipe somma_up prima che tutti i processi sommaprimi.c gli abbiano inviato la loro somma (sommaprimi.py non sa quante somme deve ricevere e chiude somma_up). Considerare questa eventualità e pensare ad un modo che garantisca che questo non succeda.

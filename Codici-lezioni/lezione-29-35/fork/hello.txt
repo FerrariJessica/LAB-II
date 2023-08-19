@@ -1,0 +1,6 @@
+#include <stdio.h>    // permette di usare scanf printf etc ...
+    printf("Uso: %s intero_positivo\n",argv[0]);
+    printf("Io sono %d figlio di %d\n",getpid(),getppid());
+    printf("Io sono %d genitore di %d\n",getpid(),p);
+    printf("Errore nella fork\n");
+  printf("Sono %d e termino\n",getpid());

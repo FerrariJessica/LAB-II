@@ -52,5 +52,3 @@ int main(int argc, char *argv[])
   printf("Io %d ho finito.\n",getpid());
   return 0;
 }
-
-

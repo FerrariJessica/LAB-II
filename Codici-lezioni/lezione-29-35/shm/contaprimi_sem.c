@@ -25,7 +25,7 @@
 // ai nomi dei semafori viene automaticamente
 // aggiunto il prefisso .sem
 #define Nome "/contaprimi"
-#define Nome2 "/contaprimi2"
+#define Nome2 "/contaprimi2" 
 
 
 //Prototipi
