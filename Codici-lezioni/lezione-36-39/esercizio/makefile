@@ -16,7 +16,7 @@ LDLIBS=-lm -lrt -pthread
 #  $^ viene sostituito con tutti i prerequisiti
 
 # elenco degli eseguibili da creare
-EXECS=contaprimi.out contaprimi2.out tabella_primi.out prodcons.out divisori.out contaprimi3.out
+EXECS = gcdT.out
 
 # primo target: gli eseguibili sono precondizioni
 # quindi verranno tutti creati
@@ -40,4 +40,4 @@ clean:
 	
 # crea file zip della lezione	
 zip:
-	zip threads.zip *.c *.h *.py makefile
+	zip esercizio_gcdT.zip *.c *.h *.py makefile

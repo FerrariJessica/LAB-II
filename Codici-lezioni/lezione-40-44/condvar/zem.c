@@ -43,11 +43,12 @@ void zem_down(zem *z, int q)
 }
 
 // analoga alla sem_post (operazione V di Dijkstra)
-void zem_up(zem *z, int q)
+void zem_down(zem *z, int q)
 {
 	assert(q>0);
   pthread_mutex_lock(&z->mutex);
-  z->tot+=q;
-  pthread_cond_broadcast(&z->cond);
+  while(z->tot-q<0)
+    pthread_cond_wait(&z->cond,&z->mutex);
+  z->tot -= q;
   pthread_mutex_unlock(&z->mutex);
 }

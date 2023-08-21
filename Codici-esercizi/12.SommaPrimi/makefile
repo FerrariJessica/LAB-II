@@ -16,7 +16,7 @@ LDLIBS=-lm -lrt
 #  $^ viene sostituito con tutti i prerequisiti
 
 # elenco degli eseguibili da creare
-EXECS= main.out
+EXECS= sommaprimi.out
 
 # primo target: gli eseguibili sono precondizioni
 # quindi verranno tutti creati
@@ -40,7 +40,7 @@ clean:
 	
 # crea file zip della lezione	
 zip:
-	zip shm.zip *.c *.h *.py makefile
+	zip sommaprimi.zip *.c *.h *.py makefile
 
 	
 	

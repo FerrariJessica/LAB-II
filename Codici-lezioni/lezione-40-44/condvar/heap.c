@@ -18,8 +18,10 @@ typedef struct {
 
 // simula allocazione con spazio limitato
 void richiedi(heap *h, int n) {
+  //si fa la lock sulla mutex
   xpthread_mutex_lock(h->mu,QUI);
   fprintf(stderr,"Richiesti: %4d\n", n);
+  //si controlla se è disponibile la memoria, se non la è si fa la wait sulla condition variable
   while(n>h->MB)
     xpthread_cond_wait(h->cv,h->mu,QUI);
   h->MB -= n;
@@ -93,6 +95,7 @@ int main(int argc, char *argv[])
   // attende terminazione thread e termina
   for(int i=0;i<nt;i++)
     xpthread_join(t[i],NULL,QUI);
+    
   xpthread_cond_destroy(&c,QUI);
   xpthread_mutex_destroy(&m,QUI);
   
