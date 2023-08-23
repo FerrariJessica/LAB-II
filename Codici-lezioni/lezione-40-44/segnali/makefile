@@ -16,7 +16,7 @@ LDLIBS=-lm -lrt -pthread
 #  $^ viene sostituito con tutti i prerequisiti
 
 # elenco degli eseguibili da creare
-EXECS=segnali1.out segnali2.out sigwait.out segnaliT.out segnaliRT.out
+EXECS=segnali1.out segnali2.out tsegnali.out sigwait.out segnaliT.out segnaliRT.out alarm.out alarmt0.out alarmt1.out alarmt2.out alarmt3.out
 
 # primo target: gli eseguibili sono precondizioni del target
 # quindi verranno tutti creati
