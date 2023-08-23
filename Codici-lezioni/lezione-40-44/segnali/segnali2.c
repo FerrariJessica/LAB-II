@@ -52,12 +52,12 @@ int main(int argc, char *argv[])
   continua = true;
   do { // loop apparentemente senza uscita
     ;
-    // scommentare per evitare il busy waiting 
-    // sleep(1000);   
-    // puts("Mi sono svegliato");            
+    //scommentare per evitare il busy waiting 
+    sleep(1000);   
+    puts("Mi sono svegliato");            
   } while(continua); 
   printf("Ricevuti: %d segnali\n", tot_segnali);
-
+  
   // rimetti la vecchia gestione di SIGINT 
   sigaction(SIGINT,&oldsa,NULL);
   // ora SIGINT interrompe ll'esecuzione come per default
