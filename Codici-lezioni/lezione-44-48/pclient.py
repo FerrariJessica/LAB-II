@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 import struct,socket,argparse
+#struct serve per pack e unpack
 
 
 

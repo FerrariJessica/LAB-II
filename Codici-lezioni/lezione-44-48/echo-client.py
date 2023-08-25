@@ -16,7 +16,10 @@ PORT = 65432        # The port used by the server
 def main(host=HOST,port=PORT):
   print(f"Mi collego a {host} sulla porta {port}")
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((host, port))
+    s.connect((host, port)) # provo a connettermi al server
+    # se non riesce termina con un errore
+    print("Connessione avvenuta")
+    # s è un oggetto socket
     while True:
       n = int(input("Quanti byte? "))
       if n<=0:
@@ -29,6 +32,12 @@ def main(host=HOST,port=PORT):
       print(f"Ricevuto {data}, bytes: {len(data)}")
       if len(data)==0:
         break
+      
+    print("Connessione terminata")
+    # non è una soluzione corretta
+    #data  =  s.recv(64)
+    #print(f"Ricevuto {data}, bytes: {len(data)}")
+    
     # all'uscita dal blocco with viene eseguito s.close()
     # ma per uscire in maniera più pulita dobbiamo
     # usare prima anche shutdown()

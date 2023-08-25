@@ -112,6 +112,7 @@ int main(int argc, char const* argv[])
   int n = ntohl(tmp);
   assert(n>=0);
   printf("Devo leggere %d primi\n",n);
+
   for(int i=0;i<n;i++) {
     e = readn(fd_skt,&tmp,sizeof(tmp));
     if(e!=sizeof(int)) termina("Errore read");
