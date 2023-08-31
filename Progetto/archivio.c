@@ -39,11 +39,27 @@ void *capo_scrittore_body(void *arg){
     printf ("Aperto la pipe caposc\n");
     
     //leggo una sequenza di byte finchè non finisco
-    char input_buffer[2048];
+    char *input_buffer = malloc(2048*sizeof(char));
+    if(input_buffer==NULL){
+        termina("[MALLOC] Errore allocazione memoria");
+    }
     size_t bytes_letti;
+    int dimensione;
     while(true){
+        ssize_t bytes_dim = read(fd, &dimensione, sizeof(int));
+        if(bytes_dim==0){
+            printf("FIFO chiusa in lettura\n");
+            break;
+        }
+        printf("lettura %d\n", dimensione);
 
-        bytes_letti = read(fd, input_buffer, 2048); 
+
+        //realloco il buffer con la dimensione giusta
+        input_buffer = realloc(input_buffer, dimensione*sizeof(char));
+        if(input_buffer==NULL){
+            termina("[REALLOC] Errore allocazione memoria");
+        }
+        bytes_letti = read(fd, input_buffer, dimensione); 
         if(bytes_letti==0){
             printf("FIFO chiusa in scrittura\n");
             break;
@@ -83,6 +99,8 @@ void *capo_scrittore_body(void *arg){
 }*/
 
 int main (int argc, char *argv[]){
+
+    //gestione segnali
     
     if(argc!=3){
         fprintf(stderr, "Uso : %s <num_thread_scrittori> <num_thread_lettori>\n", argv[0]);
