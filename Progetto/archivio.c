@@ -1,6 +1,9 @@
 #include "xerrori.h"
+#define QUI __LINE__,__FILE__
+
 
 #define Num_elem 1000000
+#define PC_buffer_len 10 
 
 void termina(const char *messaggio){
   if(errno!=0) perror(messaggio);
@@ -10,14 +13,15 @@ void termina(const char *messaggio){
 
 //struttura thread capo scrittore
 typedef struct{
-  int numero_scrittori;
-  //char *buffsc;
+  int *numero_scrittori;
+  char **buffsc;
+  int *index;
 } datiCapoScrittore;
-
+ 
 //struttura thread capo lettore
 typedef struct{
   int numero_lettori;
-  //char *bufflet;
+  char **bufflet;
 } datiCapoLettore;
 
 //funzione capo scrittore
@@ -30,58 +34,98 @@ typedef struct{
 */
 
 void *capo_scrittore_body(void *arg){
+    //prendo i dati allegati al thread
     datiCapoScrittore *cs = (datiCapoScrittore *) arg;
+
+
     //apro la pipe caposc in lettura
     int fd = open("caposc", O_RDONLY);
     if(fd==-1){
-        termina("Errore apertura caposc");
+        termina("Errore apertura caposc.\n");
     } 
     printf ("Aperto la pipe caposc\n");
     
-    //leggo una sequenza di byte finchè non finisco
-    char *input_buffer = malloc(2048*sizeof(char));
+    int dimensione = 0;
+    char *input_buffer = malloc(dimensione * sizeof(char));
     if(input_buffer==NULL){
         termina("[MALLOC] Errore allocazione memoria");
     }
     size_t bytes_letti;
-    int dimensione;
+
+
     while(true){
-        ssize_t bytes_dim = read(fd, &dimensione, sizeof(int));
-        if(bytes_dim==0){
+        //leggo la lunghezza della sequenza di byte
+        bytes_letti = read(fd, &dimensione, sizeof(int));
+        if(bytes_letti==0){
             printf("FIFO chiusa in lettura\n");
             break;
         }
-        printf("lettura %d\n", dimensione);
-
+        if(bytes_letti != sizeof(int)){
+            perror("Errore nella lettura della lunghezza della sequenza di byte");
+            break;
+        }
+        printf("dimensione %d\n", dimensione);
 
         //realloco il buffer con la dimensione giusta
-        input_buffer = realloc(input_buffer, dimensione*sizeof(char));
+        input_buffer = realloc(input_buffer, dimensione * sizeof(char));
         if(input_buffer==NULL){
             termina("[REALLOC] Errore allocazione memoria");
         }
+
+        //leggo la sequenza di n byte
         bytes_letti = read(fd, input_buffer, dimensione); 
+        printf("lettura %zu bytes : %s\n", bytes_letti, input_buffer);
+        
         if(bytes_letti==0){
             printf("FIFO chiusa in scrittura\n");
             break;
         }
-        printf("lettura %zu bytes\n", bytes_letti);
-        printf("lettura %s\n", input_buffer);
+
+        if(bytes_letti != dimensione){
+            perror("Errore nella lettura della sequenza di byte");
+        }
+    
+
+
         //aggiungo 0 alla fine della stringa
-        input_buffer[bytes_letti] = '0'; 
+        input_buffer[bytes_letti] = 0x00; 
         input_buffer[bytes_letti+1] = '\0';
         printf("aggiungo 0 alla fine della stringa : %s\n", input_buffer);
+        printf("La dimensione della seq ora è : %ld\n", bytes_letti+1);
 
         //tokenizzo la stringa
-        int i=0;
+    
+        char *copia;
         char *token = strtok(input_buffer, ".,:; \n\r\t");
         while(token != NULL){
-            printf("Token %d: %s\n", i, token);
-            token = strtok(NULL, ".,:; \n\r\t");
-            i++;
+            printf("Token %d: %s\n",*(cs->index), token);
+            //duplico il token
+            copia = strdup(token);
+            //aggiungo la copia del token al buffer
+            printf("aggiungo %s al buffer\n", copia);
+            cs->buffsc[*(cs->index)] = copia;
+            printf("%s\n", cs->buffsc[*(cs->index)]); 
+
+            token = strtok(NULL, ".,:; \n\r\t");;
+            *(cs->index) = *(cs->index) + 1;
+        }
+        
+        //stampo il buffer
+        puts("\n\nbuffer :");
+        for(int j=0; j<=*(cs->index); j++){
+            printf("%s\n", cs->buffsc[j]);
         }
         
     }
-    printf("Devo creare %d thread ausiliari\n", cs->numero_scrittori);
+
+    /*stampo il buffer finale
+    puts("\n\nbuffer finale :");
+    for(int j=0; j<=*(cs->index); j++){
+        printf("%s\n", cs->buffsc[j]);
+    }*/
+
+
+    printf("Devo creare %d thread ausiliari\n", *(cs->numero_scrittori));
     close(fd);
     pthread_exit(NULL);
 
@@ -99,8 +143,6 @@ void *capo_scrittore_body(void *arg){
 }*/
 
 int main (int argc, char *argv[]){
-
-    //gestione segnali
     
     if(argc!=3){
         fprintf(stderr, "Uso : %s <num_thread_scrittori> <num_thread_lettori>\n", argv[0]);
@@ -111,11 +153,19 @@ int main (int argc, char *argv[]){
     int w = atoi(argv[1]);
     //int r = atoi(argv[2]);
     
+    //buffer per gli scrittori
+    int index=0;
+    char **buffsc = malloc(PC_buffer_len * sizeof(char));
+    if(buffsc==NULL){
+        xtermina("[MALLOC] Errore allocazione memoria", __LINE__, __FILE__);
+    }
 
     //creo il thread capo scrittore 
     pthread_t capo_scrittore;
     datiCapoScrittore cs;
-    cs.numero_scrittori = w;
+    cs.numero_scrittori = &w;
+    cs.buffsc = buffsc;
+    cs.index = &index;
     pthread_create(&capo_scrittore, NULL, &capo_scrittore_body, &cs);
 
     pthread_join(capo_scrittore, NULL);
