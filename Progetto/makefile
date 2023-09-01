@@ -7,13 +7,13 @@ LDLIBS=-lm -lrt -pthread
 
 
 # definizione degli eseguibili
-EXECS=main main_linked archivio provaScrittura
+EXECS=main.out main_linked.out archivio.out provaScrittura.out
 
 # se si scrive solo make di default compila main.c
 all: $(EXECS)
 
 # regola per la creazioni degli eseguibili utilizzando xerrori.o
-%.out: %.o xerrori.o
+%.out : %.o xerrori.o
 	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 # regola per la creazione di file oggetto che dipendono da xerrori.h
@@ -24,7 +24,6 @@ all: $(EXECS)
 # ma esegue la cancellazione dei file oggetto e degli eseguibili
 clean: 
 	rm -f *.o $(EXECS)
-
 
 
 
