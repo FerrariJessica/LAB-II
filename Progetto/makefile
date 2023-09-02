@@ -13,7 +13,7 @@ EXECS=main.out main_linked.out archivio.out archivioOK.out provaScrittura.out
 all: $(EXECS)
 
 # regola per la creazioni degli eseguibili utilizzando xerrori.o
-%.out : %.o xerrori.o
+%.out: %.o xerrori.o
 	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 # regola per la creazione di file oggetto che dipendono da xerrori.h
@@ -23,7 +23,7 @@ all: $(EXECS)
 # esempio di target che non corrisponde a una compilazione
 # ma esegue la cancellazione dei file oggetto e degli eseguibili
 clean: 
-	rm -f *.o $(EXECS)
+	rm -f *.out $(EXECS)
 
 
 
