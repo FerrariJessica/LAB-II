@@ -19,6 +19,6 @@ Usare il comando make
 -> Se non è presente creare la fifo "caposc" dal terminale in quanto la dovrà creare il server. 
 
 ## Problemi 
- - se eseguo ./archivio.out 3 3 e ./provaScrittura.out file4 va in segmentation fault (ci va anche se aggiungo una stringa nel file)
- - se eseguo ./archivio.out 3 3 e ./provaScrittura.out file6 va legge un carattere che non deve strano(lo fa anche se aggiungo una stringa nel file)
+ - se eseguo ./archivio.out 3 3 e ./provaScrittura.out fileprova4 va in segmentation fault (ci va anche se aggiungo una stringa nel file)
+ - se eseguo ./archivio.out 3 3 e ./provaScrittura.out fileprova6 va legge un carattere che non deve strano(lo fa anche se aggiungo una stringa nel file)
  - se eseguo ./archivio.out 3 3 e ./provaScrittura.out fileprova1 (o 2 o 3 o altri file) è corretto 
