@@ -159,8 +159,8 @@ void *capo_scrittore_body(void *arg){
         xsem_wait(cs->sem_free_slots, __LINE__, __FILE__);
         cs->buffsc[*(cs->index) % PC_buffer_len] = NULL;
         //cs->buffsc[*(cs->index)] = NULL;
-        *(cs->index) += 1;
         fprintf(stdout, "BUFFER[%d] : %s\n", *(cs->index)%PC_buffer_len, cs->buffsc[*(cs->index)%PC_buffer_len]);
+        *(cs->index) += 1;
         xsem_post(cs->sem_data_items, __LINE__, __FILE__);
     }
 
